@@ -1,0 +1,6 @@
+feeds:
+  - name: "Reddit"
+    url: "https://www.reddit.com/.rss"
+  - name: "Wikipedia"
+    url: "https://en.wikipedia.org/w/index.php?title=Special:NewPages&feed=rss"
+interval_minutes: 10
