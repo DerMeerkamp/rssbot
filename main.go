@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
 )
 
@@ -44,13 +46,14 @@ type FeedConfig struct {
 
 func main() {
 	// Load configuration
-	fmt.Println("Start Rssbot")
+	log.Logger = zerolog.New(os.Stdout).With().Timestamp().Logger()
+	log.Info().Msg("Start Rssbot")
 	config, err := loadConfig("config.yaml")
 	if err != nil {
-		fmt.Println("Error loading config:", err)
+		log.Fatal().Err(err).Msg("Error loading config:")
 		return
 	} else {
-		fmt.Println("Current config:", config)
+		log.Info().Msgf("Current config: %s", config)
 	}
 
 	// Map to store last GUIDs for each feed
@@ -68,6 +71,7 @@ func main() {
 
 			// Initialize the GUID map for this feed if it doesn't exist
 			if lastGUIDs[feedConfig.URL] == nil {
+
 				lastGUIDs[feedConfig.URL] = make(map[string]bool)
 				for _, item := range rss.Channel.Items {
 					lastGUIDs[feedConfig.URL][item.GUID] = true
