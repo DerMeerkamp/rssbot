@@ -1,0 +1,6 @@
+services:
+  web:
+    build: .
+    image: rssbot
+    volumes:
+      - ./config.yaml:/app/config.yaml
